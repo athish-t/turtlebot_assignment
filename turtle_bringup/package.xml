@@ -11,7 +11,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <depend>turtle_sim</depend>
   <depend>turtle3_navigation</depend>
-
+  <depend>dwa_local_planner</depend>
   <export>
 
   </export>
