@@ -3,7 +3,11 @@ project(turtle_app)
 
 add_compile_options(-std=c++17)
 
-find_package(catkin REQUIRED roscpp)
+find_package(catkin REQUIRED
+  roscpp
+  actionlib
+  move_base_msgs
+)
 
 
 ###################################
@@ -12,7 +16,10 @@ find_package(catkin REQUIRED roscpp)
 catkin_package(
  INCLUDE_DIRS include
 #  LIBRARIES turtle_app
-#  CATKIN_DEPENDS other_catkin_pkg
+ CATKIN_DEPENDS
+  roscpp
+  actionlib
+  move_base_msgs
 #  DEPENDS system_lib
 )
 

@@ -26,8 +26,13 @@
 	</include>
 
 	<!-- Visualization -->
-	<node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" required="true" respawn="false"
+	<node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" respawn="false"
 	      args="-d $(find turtle_bringup)/rviz/default.rviz"/>
+
+  	<!-- App -->
+  	<include file="$(find turtle_app)/launch/app.launch">
+  		<arg name="config" value="$(find turtle_bringup)/config/config.yaml"/>
+	</include>
 
 </launch>
 

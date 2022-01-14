@@ -44,6 +44,7 @@ void Initialize::run(FiniteStateMachine* fsm)
 
 	fsm->getUserData().emplace(std::make_pair("goals", goals));
 
+	// Transition
 	fsm->setState(Navigate::getInstance());
 }
 
