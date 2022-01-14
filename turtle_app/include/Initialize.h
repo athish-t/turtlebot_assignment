@@ -1,4 +1,5 @@
 #include "fsm/State.h"
+#include "Types.h"
 
 namespace fsm
 {
@@ -11,7 +12,7 @@ public:
 	static State& getInstance();
 
 protected:
-	void parseGoals(XmlRpc::XmlRpcValue& xmlGoals, std::vector<std::vector<double>>& goals);
+	void parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals);
 
 private:
 	Initialize() {}

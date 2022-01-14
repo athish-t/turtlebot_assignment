@@ -1,5 +1,6 @@
-#include "CameraCapture.h"
 #include "Navigate.h"
+#include "CameraCapture.h"
+#include "fsm/FiniteStateMachine.h"
 
 namespace fsm
 {
@@ -13,7 +14,7 @@ State& CameraCapture::getInstance()
 void CameraCapture::run(FiniteStateMachine* fsm)
 {
 	std::cout << "In CameraCapture state" << std::endl;
-	// fsm->setState(Navigate::getInstance());
+	fsm->setState(Navigate::getInstance());
 }
 
 } // end namespace fsm

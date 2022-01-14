@@ -1,4 +1,5 @@
 #include "fsm/State.h"
+#include "Types.h"
 
 namespace fsm
 {

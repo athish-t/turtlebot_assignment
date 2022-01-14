@@ -11,7 +11,7 @@ State& Initialize::getInstance()
 	return singleton;
 }
 
-void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, std::vector<std::vector<double>>& goals)
+void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals)
 {
 	ROS_ASSERT(xmlGoals.getType() == XmlRpc::XmlRpcValue::TypeArray);
 
@@ -23,7 +23,7 @@ void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, std::vector<std::vect
 		ROS_ASSERT(xmlGoals[i][1].getType() == XmlRpc::XmlRpcValue::TypeDouble);
 		ROS_ASSERT(xmlGoals[i][2].getType() == XmlRpc::XmlRpcValue::TypeDouble);
 
-		goals.push_back({
+		goals.push({
 			static_cast<double>(xmlGoals[i][0]),
 			static_cast<double>(xmlGoals[i][1]),
 			static_cast<double>(xmlGoals[i][2])
@@ -38,7 +38,7 @@ void Initialize::run(FiniteStateMachine* fsm)
 	ros::NodeHandle nh("~");
 
 	XmlRpc::XmlRpcValue xmlGoals;
-	std::vector<std::vector<double>> goals;
+	Goals goals;
 	nh.getParam("turtle_goals", xmlGoals);
 	parseGoals(xmlGoals, goals);
 
