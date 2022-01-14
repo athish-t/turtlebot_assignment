@@ -1,5 +1,3 @@
-#include <iostream>
-#include "fsm/FiniteStateMachine.h"
 #include "CameraCapture.h"
 #include "Navigate.h"
 

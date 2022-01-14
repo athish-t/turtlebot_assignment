@@ -3,7 +3,7 @@ project(turtle_app)
 
 add_compile_options(-std=c++17)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED roscpp)
 
 
 ###################################
@@ -31,6 +31,7 @@ add_library(${PROJECT_NAME}
   src/fsm/FiniteStateMachine.cpp
   src/Navigate.cpp
   src/CameraCapture.cpp
+  src/Initialize.cpp
 )
 
 ## Add cmake target dependencies of the library

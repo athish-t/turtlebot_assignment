@@ -1,23 +1,32 @@
 #pragma once
 
-#include <fsm/State.h>
+#include <unordered_map>
+#include <any>
+
+#include "fsm/State.h"
 
 namespace fsm
 {
 
 class FiniteStateMachine
 {
+	using UserData = std::unordered_map<std::string, std::any>;
+
 public:
 	FiniteStateMachine();
 
-	virtual State* getCurrentState() const {return currentState; }
+	State* getCurrentState() const {return currentState; }
 
-	virtual void run();
+	void run();
 
-	virtual void setState(State& newState);
+	void setState(State& newState);
+
+	UserData& getUserData() {return userData; }
 
 private:
 	State* currentState;
+
+	UserData userData;
 };
 
 } // end namespace fsm

@@ -1,0 +1,11 @@
+<launch>
+	<arg name="config" default="$(find turtle_bringup)/config/config.yaml"/>
+
+	<arg name="use_gdb" default="false" />
+    <arg name="launch_prefix" value="xterm -e gdb --args" if="$(arg use_gdb)"/>
+    <arg name="launch_prefix" value="" unless="$(arg use_gdb)"/>
+
+	<node pkg="turtle_app" type="turtle_node" name="turtle_app" launch-prefix="$(arg launch_prefix)" respawn="false" output="screen">
+		<rosparam command="load" file="$(arg config)"/>
+	</node>
+</launch>

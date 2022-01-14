@@ -1,10 +1,13 @@
+#include <ros/ros.h>
 #include "fsm/FiniteStateMachine.h"
-#include "Navigate.h"
+#include "Initialize.h"
 
 int main(int argc, char** argv)
 {
+	ros::init(argc, argv, "turtle_app");
+
 	fsm::FiniteStateMachine turtleFsm;
-	turtleFsm.setState(fsm::Navigate::getInstance());
+	turtleFsm.setState(fsm::Initialize::getInstance());
 
 	return 0;
 }

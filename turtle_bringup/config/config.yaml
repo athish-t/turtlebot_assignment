@@ -1,0 +1,4 @@
+turtle_goals:
+  # Must be list of doubles [x, y, yaw]
+  - [1.0, 1.0, 0.0]
+  - [2.0, 1.0, 0.0]
