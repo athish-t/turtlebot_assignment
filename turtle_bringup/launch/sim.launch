@@ -7,7 +7,6 @@
 	<arg name="rviz" default="true"/>
 	<arg name="gzclient" default="false"/>
 
-
 	<!-- Simulator -->
 	<include file="$(find turtle_sim)/launch/world.launch">
 		<arg name="model" value="$(arg model)"/>
@@ -16,10 +15,11 @@
 		<arg name="y_pos" value="$(arg y_pos)"/>
 		<arg name="z_pos" value="$(arg z_pos)"/>
 		<arg name="gzclient" value="$(arg gzclient)"/>
+		<arg name="load_description" value="false"/>
 	</include>
 
 	<!-- Navigation -->
-	<include file="$(find turtlebot3_navigation)/launch/turtlebot3_navigation.launch">
+	<include file="$(find turtle_bringup)/launch/modules/navigation.launch">
 		<arg name="model" value="$(arg model)"/>
 		<arg name="map_file" value="$(find turtle_bringup)/maps/$(arg world).yaml"/>
 		<arg name="open_rviz" value="false"/>
