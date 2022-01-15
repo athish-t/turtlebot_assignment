@@ -13,7 +13,7 @@ State& CameraCapture::getInstance()
 
 void CameraCapture::run(FiniteStateMachine* fsm)
 {
-	std::cout << "In CameraCapture state" << std::endl;
+	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
 	fsm->setState(Navigate::getInstance());
 }
 

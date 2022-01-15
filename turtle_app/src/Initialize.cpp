@@ -33,7 +33,7 @@ void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals)
 
 void Initialize::run(FiniteStateMachine* fsm)
 {
-	std::cout << "In Initialize state" << std::endl;
+	ROS_INFO_STREAM_NAMED(__func__, "In Initialize state");
 
 	ros::NodeHandle nh("~");
 

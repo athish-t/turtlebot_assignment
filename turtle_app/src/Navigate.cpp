@@ -17,16 +17,16 @@ State& Navigate::getInstance()
 
 void Navigate::run(FiniteStateMachine* fsm)
 {
-	std::cout << "In Navigate state" << std::endl;
+	ROS_INFO_STREAM_NAMED(__func__, "In Navigate state");
 
 	auto& goals = std::any_cast<Goals&>(fsm->getUserData().at("goals"));
 	if (goals.size() == 0) {
-		std::cout << "No remaining goals" << std::endl;
+		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");
 		return;
 	}
 
 	const auto& goal = goals.front();
-	std::cout << "Next goal: " << goal[0] << " " << goal[1] << " " << goal[2] << std::endl;
+	ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal[0] << " " << goal[1] << " " << goal[2]);
 
 	actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> navActionClient("move_base", true);
 	navActionClient.waitForServer();
