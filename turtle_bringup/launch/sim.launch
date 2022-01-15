@@ -6,6 +6,7 @@
 	<arg name="z_pos" default="0.0"/>
 	<arg name="rviz" default="true"/>
 	<arg name="gzclient" default="false"/>
+	<arg name="config" default="$(find turtle_bringup)/config/config.yaml"/>
 
 	<env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node} ${logger}]: ${message}" />
 
@@ -28,15 +29,17 @@
 	</include>
 
 	<!-- Visualization -->
-	<node if="$(arg rviz)" pkg="rviz" type="rviz" name="rviz" respawn="false"
-	      args="-d $(find turtle_bringup)/rviz/default.rviz"/>
+	<group if="$(arg rviz)">
+		<node pkg="rviz" type="rviz" name="rviz" respawn="false"
+		    args="-d $(find turtle_bringup)/rviz/default.rviz"/>
+	    <node pkg="turtle_bringup" type="goal_viz.py" name="goal_viz" respawn="false" output="screen">
+	    	<rosparam command="load" file="$(arg config)"/>
+		</node>
+	</group>
 
   	<!-- App -->
   	<include file="$(find turtle_app)/launch/app.launch">
-  		<arg name="config" value="$(find turtle_bringup)/config/config.yaml"/>
+  		<arg name="config" value="$(arg config)"/>
 	</include>
 
 </launch>
-
-
-
