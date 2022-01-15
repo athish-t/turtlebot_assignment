@@ -26,6 +26,10 @@
     <arg name="move_forward_only" value="$(arg move_forward_only)"/>
   </include>
 
+  <!-- Hack: Override params to tune planner-->
+  <param name="move_base/DWAPlannerROS/max_vel_theta" value="1.0"/>
+  <param name="move_base/DWAPlannerROS/min_vel_theta" value="0.5"/>
+
   <!-- rviz -->
   <group if="$(arg open_rviz)">
     <node pkg="rviz" type="rviz" name="rviz" required="true"
