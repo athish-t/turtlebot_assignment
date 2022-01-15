@@ -1,4 +1,4 @@
-# turtlebot_assignment
+# turtlebot_fsm
 
 This project has been developed and tested with Ubunutu 20.04 Focal and ROS1 Noetic.
 
