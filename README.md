@@ -4,6 +4,12 @@ This project has been developed and tested with Ubunutu 20.04 Focal and ROS1 Noe
 
 Ideally, there shouldn't be any issues running with earlier versions, however steps to installing dependencies may differ.
 
+### Overview
+
+The following diagram shows a representation of the states and transitions implememnted in the Finite State Machine.
+
+![fsm](./docs/fsm.png)
+
 ### Install
 
 		export CATKIN_WS=~/catkin_ws
