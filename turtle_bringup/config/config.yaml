@@ -5,3 +5,9 @@ turtle_goals:
     coords: [1.0, 1.0, 0.0]
   - id: 2
     coords: [2.0, 1.0, 0.0]
+  - id: 3
+    coords: [3.0, 0.0, -1.57]
+  - id: 4
+    coords: [3.0, -2.0, 0.0]
+  - id: 5
+    coords: [5.0, -2.0, 0.0]
