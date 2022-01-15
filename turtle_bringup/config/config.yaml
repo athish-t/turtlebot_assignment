@@ -1,5 +1,7 @@
 image_save_path: $(find turtle_bringup)/media
 turtle_goals:
-  # Must be list of doubles [x, y, yaw]
-  - [1.0, 1.0, 0.0] # GOAL 1
-  - [2.0, 1.0, 0.0] # GOAL 2
+  # coords must be list of doubles [x, y, yaw]
+  - id: 1
+    coords: [1.0, 1.0, 0.0]
+  - id: 2
+    coords: [2.0, 1.0, 0.0]

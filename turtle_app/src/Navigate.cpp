@@ -28,27 +28,27 @@ void Navigate::run(FiniteStateMachine* fsm)
 	}
 
 	const auto& goal = goals.front();
-	ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal[0] << " " << goal[1] << " " << goal[2]);
+	ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal.coordinates[0] << " " << goal.coordinates[1] << " " << goal.coordinates[2]);
 
 	actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> navActionClient("move_base", true);
 	navActionClient.waitForServer();
 	move_base_msgs::MoveBaseGoal navGoal;
 	navGoal.target_pose.header.frame_id = "map";
-	navGoal.target_pose.pose.position.x = goal[0];
-	navGoal.target_pose.pose.position.y = goal[1];
+	navGoal.target_pose.pose.position.x = goal.coordinates[0];
+	navGoal.target_pose.pose.position.y = goal.coordinates[1];
 	tf2::Quaternion quat;
-	quat.setRPY(0, 0, goal[2]);
+	quat.setRPY(0, 0, goal.coordinates[2]);
 	quat.normalize();
 	navGoal.target_pose.pose.orientation = tf2::toMsg(quat);
 	navActionClient.sendGoal(navGoal);
 	bool finished_before_timeout = navActionClient.waitForResult();
 
+	// Save checkpoint info
+	fsm->getUserData()["last_checkpoint_id"] = static_cast<int>(goal.id);
 	goals.pop();
 
 	// Transition
-	if (goals.size() != 0) {
-		fsm->setState(CameraCapture::getInstance());
-	}
+	fsm->setState(CameraCapture::getInstance());
 }
 
 } // end namespace fsm

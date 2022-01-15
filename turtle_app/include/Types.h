@@ -3,4 +3,9 @@
 #include <queue>
 #include <vector>
 
-using Goals = std::queue<std::vector<double>>;
+struct Goal {
+	int id;
+	std::array<double, 3> coordinates;
+};
+
+using Goals = std::queue<Goal>;

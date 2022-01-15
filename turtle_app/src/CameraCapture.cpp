@@ -37,14 +37,16 @@ void CameraCapture::run(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
 
+	const std::string fileName = std::to_string(std::any_cast<int>(fsm->getUserData().at("last_checkpoint_id"))) + ".jpg";
 	const std::string& imageSaveDir = std::any_cast<std::string&>(fsm->getUserData().at("image_save_path"));
-	ROS_INFO_STREAM_NAMED(__func__, "Saving image to " << imageSaveDir);
+
+	ROS_INFO_STREAM_NAMED(__func__, "Saving image to " << fileName);
 
 	sensor_msgs::ImageConstPtr imagePtr = ros::topic::waitForMessage<sensor_msgs::Image>("kinect/color/image_raw");
 	if (imagePtr == nullptr) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to get image from camera");
 	}
-	else if (!saveImage(imagePtr, imageSaveDir, "1.jpg")) {
+	else if (!saveImage(imagePtr, imageSaveDir, fileName)) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to save image");
 	}
 	else {
