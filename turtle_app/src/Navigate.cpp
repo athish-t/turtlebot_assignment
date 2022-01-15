@@ -1,4 +1,5 @@
 #include "Navigate.h"
+#include "Idle.h"
 #include "CameraCapture.h"
 #include "fsm/FiniteStateMachine.h"
 
@@ -21,6 +22,9 @@ void Navigate::run(FiniteStateMachine* fsm)
 	auto& goals = std::any_cast<Goals&>(fsm->getUserData().at("goals"));
 	if (goals.size() == 0) {
 		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");
+
+		// Transition
+		fsm->setState(Idle::getInstance());
 		return;
 	}
 

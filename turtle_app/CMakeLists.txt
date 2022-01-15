@@ -46,6 +46,8 @@ add_library(${PROJECT_NAME}
   src/Navigate.cpp
   src/CameraCapture.cpp
   src/Initialize.cpp
+  src/Idle.cpp
+  src/Terminate.cpp
 )
 
 target_link_libraries(
