@@ -17,6 +17,7 @@ void Terminate::init(FiniteStateMachine* fsm)
 
 void Terminate::run(FiniteStateMachine* fsm)
 {
+	// Don't do anything
 	return;
 }
 

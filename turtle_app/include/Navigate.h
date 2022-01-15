@@ -14,11 +14,17 @@ class Navigate : public State
 {
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
-	virtual void init(FiniteStateMachine* fsm);
+	virtual void init(FiniteStateMachine* fsm) override;
 
+	/*
+	* Get singleton instance of state
+	*/
 	static State& getInstance();
 
 private:
+	/*
+	* Disallow default construction to get state instance as singleton
+	*/
 	Navigate() {}
 	Navigate(const Navigate& other);
 	Navigate& operator=(const Navigate& other);

@@ -20,6 +20,8 @@ void Navigate::init(FiniteStateMachine* fsm)
 void Navigate::run(FiniteStateMachine* fsm)
 {
 	auto& goals = std::any_cast<Goals&>(fsm->getUserData().at("goals"));
+
+	// Go to Idle state if all goals are processed
 	if (goals.size() == 0) {
 		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");
 
@@ -28,9 +30,11 @@ void Navigate::run(FiniteStateMachine* fsm)
 		return;
 	}
 
+	// Get next goal from queue
 	const auto& goal = goals.front();
 	ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal.coordinates[0] << " " << goal.coordinates[1] << " " << goal.coordinates[2]);
 
+	// Send action goal and wait for result
 	actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> navActionClient("move_base", true);
 	navActionClient.waitForServer();
 	move_base_msgs::MoveBaseGoal navGoal;

@@ -18,6 +18,7 @@ void CameraCapture::init(FiniteStateMachine* fsm)
 
 bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::string dir, std::string filename)
 {
+	// Convert to cv image
 	cv::Mat image;
     try{
 		image = cv_bridge::toCvShare(image_msg, "bgr8")->image;
@@ -31,9 +32,12 @@ bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::
     	return false;
     }
 
+    // Create directories and paths
     std::filesystem::path dirPath = std::filesystem::path(dir);
 	std::filesystem::create_directories(dir);
     std::filesystem::path filePath = dirPath / std::filesystem::path(filename);
+
+    // Save
     cv::imwrite((std::filesystem::path(dir) / std::filesystem::path(filename).u8string()), image);
     return true;
 }
@@ -45,7 +49,9 @@ void CameraCapture::run(FiniteStateMachine* fsm)
 
 	ROS_INFO_STREAM_NAMED(__func__, "Saving image to " << fileName);
 
+	// Wait for ROS message from camera
 	sensor_msgs::ImageConstPtr imagePtr = ros::topic::waitForMessage<sensor_msgs::Image>("kinect/color/image_raw");
+
 	if (imagePtr == nullptr) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to get image from camera");
 	}

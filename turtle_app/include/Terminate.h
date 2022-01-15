@@ -8,14 +8,17 @@ class Terminate : public State
 {
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
-	virtual void init(FiniteStateMachine* fsm);
+	virtual void init(FiniteStateMachine* fsm) override;
 
+	/*
+	* Get singleton instance of state
+	*/
 	static State& getInstance();
 
-protected:
-	void parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals);
-
 private:
+	/*
+	* Disallow default construction to get state instance as singleton
+	*/
 	Terminate() {}
 	Terminate(const Terminate& other);
 	Terminate& operator=(const Terminate& other);

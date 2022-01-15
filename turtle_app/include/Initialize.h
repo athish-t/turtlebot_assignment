@@ -8,14 +8,23 @@ class Initialize : public State
 {
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
-	virtual void init(FiniteStateMachine* fsm);
+	virtual void init(FiniteStateMachine* fsm) override;
 
+	/*
+	* Get singleton instance of state
+	*/
 	static State& getInstance();
 
 protected:
+	/*
+	* Parse goal data from xmlrpc data obtained from param server
+	*/
 	void parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals);
 
 private:
+	/*
+	* Disallow default construction to get state instance as singleton
+	*/
 	Initialize() {}
 	Initialize(const Initialize& other);
 	Initialize& operator=(const Initialize& other);

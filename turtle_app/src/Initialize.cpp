@@ -50,10 +50,14 @@ void Initialize::run(FiniteStateMachine* fsm)
 	Goals goals;
 	std::string image_save_path;
 
+	// Get params from ROS param server
 	nh.getParam("image_save_path", image_save_path);
 	nh.getParam("turtle_goals", xmlGoals);
+
+	// parse xmlrpc data
 	parseGoals(xmlGoals, goals);
 
+	// Set in data store for other states to access
 	fsm->getUserData()["image_save_path"] = image_save_path;
 	fsm->getUserData()["goals"] = goals;
 	fsm->getUserData()["last_checkpoint_id"] = 0;
