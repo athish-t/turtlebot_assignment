@@ -10,6 +10,8 @@ The following diagram shows a representation of the states and transitions imple
 
 ![fsm](./docs/fsm.png)
 
+The FSM has been implemented using the [State Design](https://en.wikipedia.org/wiki/State_pattern) pattern. Each state is a [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) object that can execute a behaviour and decide the transition to its successor state. The FSM holds a pointer to the current active state. A state's behaviour is executed when its `run()` method is trigerred. Each state can also implement behaviours to be run on entry and exit using the `init()` and `terminate()` methods.
+
 ### Install
 
 		export CATKIN_WS=~/catkin_ws
