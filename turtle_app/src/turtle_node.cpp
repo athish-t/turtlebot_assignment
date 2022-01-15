@@ -18,6 +18,7 @@ int main(int argc, char** argv)
 	spinner.start();
 	while (ros::ok()) {
 		turtleFsm.run();
+		ros::Rate(10).sleep();
 	}
 
 	return 0;
