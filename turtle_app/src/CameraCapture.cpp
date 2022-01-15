@@ -33,12 +33,12 @@ bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::
     }
 
     // Create directories and paths
-    std::filesystem::path dirPath = std::filesystem::path(dir);
-	std::filesystem::create_directories(dir);
-    std::filesystem::path filePath = dirPath / std::filesystem::path(filename);
+    boost::filesystem::path dirPath = boost::filesystem::path(dir);
+	boost::filesystem::create_directories(dir);
+    boost::filesystem::path filePath = dirPath / boost::filesystem::path(filename);
 
     // Save
-    cv::imwrite((std::filesystem::path(dir) / std::filesystem::path(filename).u8string()), image);
+    cv::imwrite((boost::filesystem::path(dir) / boost::filesystem::path(filename)).string(), image);
     return true;
 }
 

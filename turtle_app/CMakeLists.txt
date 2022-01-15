@@ -14,19 +14,20 @@ find_package(catkin REQUIRED
 )
 
 find_package(OpenCV REQUIRED)
+find_package(Boost REQUIRED)
 
 
 ###################################
 ## catkin specific configuration ##
 ###################################
 catkin_package(
- INCLUDE_DIRS include
+  INCLUDE_DIRS include
 #  LIBRARIES turtle_app
- CATKIN_DEPENDS
+  CATKIN_DEPENDS
   roscpp
   actionlib
   move_base_msgs
-#  DEPENDS system_lib
+  DEPENDS Boost
 )
 
 ###########
@@ -38,6 +39,7 @@ include_directories(
 	include
 	${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -53,6 +55,7 @@ add_library(${PROJECT_NAME}
 target_link_libraries(
   ${PROJECT_NAME}
   ${OpenCV_LIBRARIES}
+  ${Boost_LIBRARIES}
 )
 
 ## Add cmake target dependencies of the library
