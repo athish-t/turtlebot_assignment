@@ -8,7 +8,12 @@ find_package(catkin REQUIRED
   actionlib
   move_base_msgs
   tf2_ros
+  image_transport
+  cv_bridge
+  sensor_msgs
 )
+
+find_package(OpenCV REQUIRED)
 
 
 ###################################
@@ -32,6 +37,7 @@ catkin_package(
 include_directories(
 	include
 	${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -40,6 +46,11 @@ add_library(${PROJECT_NAME}
   src/Navigate.cpp
   src/CameraCapture.cpp
   src/Initialize.cpp
+)
+
+target_link_libraries(
+  ${PROJECT_NAME}
+  ${OpenCV_LIBRARIES}
 )
 
 ## Add cmake target dependencies of the library

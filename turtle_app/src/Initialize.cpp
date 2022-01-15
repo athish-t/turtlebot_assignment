@@ -39,9 +39,13 @@ void Initialize::run(FiniteStateMachine* fsm)
 
 	XmlRpc::XmlRpcValue xmlGoals;
 	Goals goals;
+	std::string image_save_path;
+
+	nh.getParam("image_save_path", image_save_path);
 	nh.getParam("turtle_goals", xmlGoals);
 	parseGoals(xmlGoals, goals);
 
+	fsm->getUserData().emplace(std::make_pair("image_save_path", image_save_path));
 	fsm->getUserData().emplace(std::make_pair("goals", goals));
 
 	// Transition

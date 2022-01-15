@@ -11,9 +11,47 @@ State& CameraCapture::getInstance()
 	return singleton;
 }
 
+bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::string dir, std::string filename)
+{
+	cv::Mat image;
+    try{
+      image = cv_bridge::toCvShare(image_msg, "bgr8")->image;
+    } catch(cv_bridge::Exception){
+      ROS_WARN_NAMED(__func__, "Unable to convert %s image to bgr8", image_msg->encoding.c_str());
+      return false;
+    }
+
+    if (image.empty()) {
+    	ROS_WARN_NAMED(__func__, "Couldn't save image, no data!");
+    	return false;
+    }
+
+    std::filesystem::path dirPath = std::filesystem::path(dir);
+	std::filesystem::create_directories(dir);
+    std::filesystem::path filePath = dirPath / std::filesystem::path(filename);
+    cv::imwrite((std::filesystem::path(dir) / std::filesystem::path(filename).u8string()), image);
+    return true;
+}
+
 void CameraCapture::run(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
+
+	const std::string& imageSaveDir = std::any_cast<std::string&>(fsm->getUserData().at("image_save_path"));
+	ROS_INFO_STREAM_NAMED(__func__, "Saving image to " << imageSaveDir);
+
+	sensor_msgs::ImageConstPtr imagePtr = ros::topic::waitForMessage<sensor_msgs::Image>("kinect/color/image_raw");
+	if (imagePtr == nullptr) {
+		ROS_ERROR_STREAM_NAMED(__func__, "Unable to get image from camera");
+	}
+	else if (!saveImage(imagePtr, imageSaveDir, "1.jpg")) {
+		ROS_ERROR_STREAM_NAMED(__func__, "Unable to save image");
+	}
+	else {
+		ROS_INFO_STREAM_NAMED(__func__, "Captured and saved image successfully");
+	}
+
+	// Transition
 	fsm->setState(Navigate::getInstance());
 }
 
