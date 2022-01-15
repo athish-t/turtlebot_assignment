@@ -8,9 +8,10 @@ Ideally, there shouldn't be any issues running with earlier versions, however st
 
 		export CATKIN_WS=~/catkin_ws
 		mkdir -p $CATKIN_WS/src
-		cd $CATKIN_WS
+		cd $CATKIN_WS/src
 
 		git clone https://github.com/athish-t/turtlebot_fsm.git
+		cd $CATKIN_WS/src/turtlebot_fsm
 		git submodule update --init --recursive
 
 		rosdep install --from-paths src --ignore-src -r -y
