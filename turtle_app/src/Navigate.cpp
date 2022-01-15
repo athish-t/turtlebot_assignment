@@ -5,6 +5,8 @@
 #include <actionlib/client/simple_action_client.h>
 #include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseAction.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 
 namespace fsm
 {
@@ -34,7 +36,10 @@ void Navigate::run(FiniteStateMachine* fsm)
 	navGoal.target_pose.header.frame_id = "map";
 	navGoal.target_pose.pose.position.x = goal[0];
 	navGoal.target_pose.pose.position.y = goal[1];
-	navGoal.target_pose.pose.orientation.w = 1.0; // TODO: set quaternion
+	tf2::Quaternion quat;
+	quat.setRPY(0, 0, goal[2]);
+	quat.normalize();
+	navGoal.target_pose.pose.orientation = tf2::toMsg(quat);
 	navActionClient.sendGoal(navGoal);
 	bool finished_before_timeout = navActionClient.waitForResult();
 

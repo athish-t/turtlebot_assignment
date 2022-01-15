@@ -12,7 +12,7 @@
   <depend>roscpp</depend>
   <depend>actionlib</depend>
   <depend>move_base_msgs</depend>
-
+  <depend>tf2_ros</depend>
   <export>
   </export>
 </package>

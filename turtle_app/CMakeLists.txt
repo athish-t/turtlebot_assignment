@@ -7,6 +7,7 @@ find_package(catkin REQUIRED
   roscpp
   actionlib
   move_base_msgs
+  tf2_ros
 )
 
 
