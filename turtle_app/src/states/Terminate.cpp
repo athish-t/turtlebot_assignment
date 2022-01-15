@@ -1,5 +1,5 @@
-#include "Terminate.h"
 #include "fsm/FiniteStateMachine.h"
+#include "states/Terminate.h"
 
 namespace fsm
 {

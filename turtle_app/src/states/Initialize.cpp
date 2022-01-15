@@ -1,6 +1,6 @@
-#include "Initialize.h"
-#include "Navigate.h"
 #include "fsm/FiniteStateMachine.h"
+#include "states/Initialize.h"
+#include "states/Navigate.h"
 
 namespace fsm
 {

@@ -1,7 +1,7 @@
-#include "Navigate.h"
-#include "Idle.h"
-#include "CameraCapture.h"
 #include "fsm/FiniteStateMachine.h"
+#include "states/Navigate.h"
+#include "states/Idle.h"
+#include "states/CameraCapture.h"
 
 namespace fsm
 {

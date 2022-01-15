@@ -1,7 +1,7 @@
-#include "Idle.h"
-#include "Initialize.h"
-#include "Terminate.h"
 #include "fsm/FiniteStateMachine.h"
+#include "states/Idle.h"
+#include "states/Initialize.h"
+#include "states/Terminate.h"
 
 namespace fsm
 {

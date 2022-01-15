@@ -1,6 +1,6 @@
 #include <ros/ros.h>
 #include "fsm/FiniteStateMachine.h"
-#include "Initialize.h"
+#include "states/Initialize.h"
 
 int main(int argc, char** argv)
 {
@@ -10,6 +10,7 @@ int main(int argc, char** argv)
 
 	ROS_INFO_STREAM_NAMED(__func__, "Starting turtle FSM node");
 
+	// Initialize FSM and set intial state
 	fsm::FiniteStateMachine turtleFsm;
 	turtleFsm.setState(fsm::Initialize::getInstance());
 

@@ -61,11 +61,11 @@ include_directories(
 ## Declare a C++ library
 add_library(${PROJECT_NAME}
   src/fsm/FiniteStateMachine.cpp
-  src/Navigate.cpp
-  src/CameraCapture.cpp
-  src/Initialize.cpp
-  src/Idle.cpp
-  src/Terminate.cpp
+  src/states/Navigate.cpp
+  src/states/CameraCapture.cpp
+  src/states/Initialize.cpp
+  src/states/Idle.cpp
+  src/states/Terminate.cpp
 )
 
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
