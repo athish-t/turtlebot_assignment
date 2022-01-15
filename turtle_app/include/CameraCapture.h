@@ -15,6 +15,7 @@ class CameraCapture : public State
 {
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
+	virtual void init(FiniteStateMachine* fsm);
 
 	static State& getInstance();
 

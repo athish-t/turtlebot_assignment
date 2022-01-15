@@ -24,7 +24,7 @@ public:
 	UserData& getUserData() {return userData; }
 
 private:
-	State* currentState;
+	State* currentState = nullptr;
 
 	UserData userData;
 };

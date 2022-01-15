@@ -11,10 +11,13 @@ State& Navigate::getInstance()
 	return singleton;
 }
 
-void Navigate::run(FiniteStateMachine* fsm)
+void Navigate::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In Navigate state");
+}
 
+void Navigate::run(FiniteStateMachine* fsm)
+{
 	auto& goals = std::any_cast<Goals&>(fsm->getUserData().at("goals"));
 	if (goals.size() == 0) {
 		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");

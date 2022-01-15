@@ -11,14 +11,19 @@ State& CameraCapture::getInstance()
 	return singleton;
 }
 
+void CameraCapture::init(FiniteStateMachine* fsm)
+{
+	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
+}
+
 bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::string dir, std::string filename)
 {
 	cv::Mat image;
     try{
-      image = cv_bridge::toCvShare(image_msg, "bgr8")->image;
+		image = cv_bridge::toCvShare(image_msg, "bgr8")->image;
     } catch(cv_bridge::Exception){
-      ROS_WARN_NAMED(__func__, "Unable to convert %s image to bgr8", image_msg->encoding.c_str());
-      return false;
+		ROS_WARN_NAMED(__func__, "Unable to convert %s image to bgr8", image_msg->encoding.c_str());
+		return false;
     }
 
     if (image.empty()) {
@@ -35,8 +40,6 @@ bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::
 
 void CameraCapture::run(FiniteStateMachine* fsm)
 {
-	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
-
 	const std::string fileName = std::to_string(std::any_cast<int>(fsm->getUserData().at("last_checkpoint_id"))) + ".jpg";
 	const std::string& imageSaveDir = std::any_cast<std::string&>(fsm->getUserData().at("image_save_path"));
 

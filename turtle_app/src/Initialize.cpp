@@ -11,6 +11,11 @@ State& Initialize::getInstance()
 	return singleton;
 }
 
+void Initialize::init(FiniteStateMachine* fsm)
+{
+	ROS_INFO_STREAM_NAMED(__func__, "In Initialize state");
+}
+
 void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals)
 {
 	ROS_ASSERT(xmlGoals.getType() == XmlRpc::XmlRpcValue::TypeArray);
@@ -39,8 +44,6 @@ void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals)
 
 void Initialize::run(FiniteStateMachine* fsm)
 {
-	ROS_INFO_STREAM_NAMED(__func__, "In Initialize state");
-
 	ros::NodeHandle nh("~");
 
 	XmlRpc::XmlRpcValue xmlGoals;

@@ -7,8 +7,11 @@ FiniteStateMachine::FiniteStateMachine() {}
 
 void FiniteStateMachine::setState(State& newState)
 {
+	if (currentState != nullptr) {
+		currentState->terminate(this);
+	}
 	currentState = &newState;
-	currentState->run(this);
+	currentState->init(this);
 }
 
 void FiniteStateMachine::run()
