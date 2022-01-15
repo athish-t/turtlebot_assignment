@@ -19,6 +19,7 @@ Ideally, there shouldn't be any issues running with earlier versions, however st
 
 		cd $CATKIN_WS
 		catkin build turtle_bringup
+		source $CATKIN_WS/devel/setup.bash
 
 ### Run
 
