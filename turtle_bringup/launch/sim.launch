@@ -7,7 +7,7 @@
 	<arg name="rviz" default="true"/>
 	<arg name="gzclient" default="false"/>
 
-	<env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node} ${logger}]: ${message})" />
+	<env name="ROSCONSOLE_FORMAT" value="[${severity}] [${time}] [${node} ${logger}]: ${message}" />
 
 	<!-- Simulator -->
 	<include file="$(find turtle_sim)/launch/world.launch">
