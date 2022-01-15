@@ -51,9 +51,9 @@ void Initialize::run(FiniteStateMachine* fsm)
 	nh.getParam("turtle_goals", xmlGoals);
 	parseGoals(xmlGoals, goals);
 
-	fsm->getUserData().emplace(std::make_pair("image_save_path", image_save_path));
-	fsm->getUserData().emplace(std::make_pair("goals", goals));
-	fsm->getUserData().emplace(std::make_pair("last_checkpoint_id", 0));
+	fsm->getUserData()["image_save_path"] = image_save_path;
+	fsm->getUserData()["goals"] = goals;
+	fsm->getUserData()["last_checkpoint_id"] = 0;
 
 	// Transition
 	fsm->setState(Navigate::getInstance());
