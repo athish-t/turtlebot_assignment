@@ -17,6 +17,7 @@ Ideally, there shouldn't be any issues running with earlier versions, however st
 		rosdep install --from-paths . --ignore-src -r -y
 		sudo apt install ros-noetic-amcl # not released in rosdep yet for noetic
 
+		cd $CATKIN_WS
 		catkin build turtle_bringup
 
 ### Run
