@@ -8,4 +8,6 @@
 	<node pkg="turtle_app" type="turtle_node" name="turtle_app" launch-prefix="$(arg launch_prefix)" respawn="false" output="screen">
 		<rosparam command="load" file="$(arg config)" subst_value="true"/>
 	</node>
+
+	<node pkg="turtle_app" type="camera_server" name="camera_server" respawn="false" output="screen"/>
 </launch>

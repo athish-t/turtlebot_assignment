@@ -39,6 +39,7 @@ bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::
 
     // Save
     cv::imwrite((boost::filesystem::path(dir) / boost::filesystem::path(filename)).string(), image);
+    ROS_INFO_STREAM_NAMED(__func__, "Image saved successfully");
     return true;
 }
 
@@ -49,17 +50,18 @@ void CameraCapture::run(FiniteStateMachine* fsm)
 
 	ROS_INFO_STREAM_NAMED(__func__, "Saving image to " << fileName);
 
-	// Wait for ROS message from camera
-	sensor_msgs::ImageConstPtr imagePtr = ros::topic::waitForMessage<sensor_msgs::Image>("kinect/color/image_raw");
+	// Get ROS Image message from camera
+	ros::NodeHandle nh;
+	ros::ServiceClient cameraClient = nh.serviceClient<turtle_app::CameraCapture>("camera_server/get_image");
+	sensor_msgs::ImageConstPtr imagePtr;
+	turtle_app::CameraCapture captureRequest;
+	bool serviceSuccess = cameraClient.call(captureRequest);
 
-	if (imagePtr == nullptr) {
+	if (!serviceSuccess || !captureRequest.response.success) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to get image from camera");
 	}
-	else if (!saveImage(imagePtr, imageSaveDir, fileName)) {
+	else if (captureRequest.response.success && !saveImage(boost::make_shared<sensor_msgs::Image>(captureRequest.response.image), imageSaveDir, fileName)) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to save image");
-	}
-	else {
-		ROS_INFO_STREAM_NAMED(__func__, "Captured and saved image successfully");
 	}
 
 	// Transition
