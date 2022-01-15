@@ -14,7 +14,7 @@ Ideally, there shouldn't be any issues running with earlier versions, however st
 		cd $CATKIN_WS/src/turtlebot_fsm
 		git submodule update --init --recursive
 
-		rosdep install --from-paths src --ignore-src -r -y
+		rosdep install --from-paths . --ignore-src -r -y
 		sudo apt install ros-noetic-amcl # not released in rosdep yet for noetic
 
 		catkin build turtle_bringup
