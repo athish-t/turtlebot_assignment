@@ -36,6 +36,6 @@ See `turtle_bringup/config` to configure navigation goals and the directory to s
 		export TURTLEBOT3_MODEL=burger # only support burger
 		roslaunch turtle_bringup sim.launch
 
-To send user interrupt, publish an message:
+To send user interrupt, publish a message:
 
 		rostopic pub /interrupt std_msgs/Empty "{}"
