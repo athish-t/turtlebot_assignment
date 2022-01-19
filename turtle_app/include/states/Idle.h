@@ -9,6 +9,7 @@ class Idle : public State
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
 	virtual void init(FiniteStateMachine* fsm) override;
+	virtual void evaluateTransitions(FiniteStateMachine* fsm) override;
 
 	/*
 	* Get singleton instance of state
@@ -23,6 +24,8 @@ private:
 	Idle() {}
 	Idle(const Idle& other);
 	Idle& operator=(const Idle& other);
+
+	std::optional<char> userInput;
 };
 
 } // end namespace fsm

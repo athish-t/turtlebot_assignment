@@ -15,45 +15,68 @@ State& Navigate::getInstance()
 void Navigate::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In Navigate state");
+	goals = std::addressof(std::any_cast<Goals&>(fsm->getUserData().at("goals")));
+	navActionClient.reset(new ActionClient("move_base", true));
+	navActionClient->waitForServer();
+	goalSent = false;
 }
 
 void Navigate::run(FiniteStateMachine* fsm)
 {
-	auto& goals = std::any_cast<Goals&>(fsm->getUserData().at("goals"));
+	if (!goalSent && goals->size() != 0) {
+		// Get next goal from queue
+		const auto& goal = goals->front();
+		ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal.coordinates[0] << " " << goal.coordinates[1] << " " << goal.coordinates[2]);
 
-	// Go to Idle state if all goals are processed
-	if (goals.size() == 0) {
-		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");
+		// Send action goal
+		move_base_msgs::MoveBaseGoal navGoal;
+		navGoal.target_pose.header.frame_id = "map";
+		navGoal.target_pose.pose.position.x = goal.coordinates[0];
+		navGoal.target_pose.pose.position.y = goal.coordinates[1];
+		tf2::Quaternion quat;
+		quat.setRPY(0, 0, goal.coordinates[2]);
+		quat.normalize();
+		navGoal.target_pose.pose.orientation = tf2::toMsg(quat);
+		navActionClient->sendGoal(navGoal);
 
-		// Transition
-		fsm->setState(Idle::getInstance());
-		return;
+		goalSent = true;
 	}
 
-	// Get next goal from queue
-	const auto& goal = goals.front();
-	ROS_INFO_STREAM_NAMED(__func__, "Next goal: " << goal.coordinates[0] << " " << goal.coordinates[1] << " " << goal.coordinates[2]);
+	auto state = navActionClient->getState();
+	if (!state.isDone()) {
+		return;
+	}
+}
 
-	// Send action goal and wait for result
-	actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> navActionClient("move_base", true);
-	navActionClient.waitForServer();
-	move_base_msgs::MoveBaseGoal navGoal;
-	navGoal.target_pose.header.frame_id = "map";
-	navGoal.target_pose.pose.position.x = goal.coordinates[0];
-	navGoal.target_pose.pose.position.y = goal.coordinates[1];
-	tf2::Quaternion quat;
-	quat.setRPY(0, 0, goal.coordinates[2]);
-	quat.normalize();
-	navGoal.target_pose.pose.orientation = tf2::toMsg(quat);
-	navActionClient.sendGoal(navGoal);
-	bool finished_before_timeout = navActionClient.waitForResult();
+void Navigate::terminate(FiniteStateMachine* fsm)
+{
+	navActionClient->cancelAllGoals();
 
 	// Save checkpoint info
-	fsm->getUserData()["last_checkpoint_id"] = static_cast<int>(goal.id);
-	goals.pop();
+	fsm->getUserData()["last_checkpoint_id"] = static_cast<int>(goals->front().id);
+	goals->pop();
+}
 
-	// Transition
-	fsm->setState(CameraCapture::getInstance());
+void Navigate::evaluateTransitions(FiniteStateMachine* fsm)
+{
+	auto state = navActionClient->getState();
+	if (state == ActionState::SUCCEEDED){
+		ROS_INFO_STREAM_NAMED(__func__, "Navigate action goal succeeded");
+		fsm->setState(CameraCapture::getInstance());
+	}
+	else if (
+		state == ActionState::RECALLED ||
+		state == ActionState::REJECTED ||
+		state == ActionState::PREEMPTED ||
+		state == ActionState::ABORTED
+	) {
+		ROS_ERROR_STREAM_NAMED(__func__, "Navigate action goal failed");
+		fsm->setState(Idle::getInstance());
+	}
+	else if (goals->size() == 0) {
+		ROS_INFO_STREAM_NAMED(__func__, "No remaining goals");
+		fsm->setState(Idle::getInstance()); // Go to Idle state if all goals are processed
+	}
 }
 
 } // end namespace fsm

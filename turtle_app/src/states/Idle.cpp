@@ -15,6 +15,7 @@ State& Idle::getInstance()
 void Idle::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In Idle state");
+	userInput = std::nullopt;
 }
 
 void Idle::run(FiniteStateMachine* fsm)
@@ -24,11 +25,19 @@ void Idle::run(FiniteStateMachine* fsm)
 	ROS_INFO_STREAM_NAMED(__func__, "Press 'q' to terminate");
 	ROS_INFO_STREAM_NAMED(__func__, "**************************************");
 
-	// Transition
 	// Wait for user unput
 	char c;
 	std::cin >> c;
-	switch(c) {
+	userInput = c;
+}
+
+void Idle::evaluateTransitions(FiniteStateMachine* fsm)
+{
+	if (!userInput.has_value()) {
+		return;
+	}
+
+	switch(userInput.value()) {
 		case 'c':
 			fsm->setState(Initialize::getInstance());
 			break;
@@ -38,7 +47,6 @@ void Idle::run(FiniteStateMachine* fsm)
 		default:
 			ROS_INFO_STREAM_NAMED(__func__, "Invalid input.");
 	};
-
 }
 
 } // end namespace fsm

@@ -21,4 +21,9 @@ void Terminate::run(FiniteStateMachine* fsm)
 	return;
 }
 
+void Terminate::evaluateTransitions(FiniteStateMachine* fsm)
+{
+	return;
+}
+
 } // end namespace fsm

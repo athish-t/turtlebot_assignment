@@ -14,6 +14,7 @@ State& CameraCapture::getInstance()
 void CameraCapture::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In CameraCapture state");
+	success = std::nullopt;
 }
 
 bool CameraCapture::saveImage(const sensor_msgs::ImageConstPtr& image_msg, std::string dir, std::string filename)
@@ -59,13 +60,24 @@ void CameraCapture::run(FiniteStateMachine* fsm)
 
 	if (!serviceSuccess || !captureRequest.response.success) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to get image from camera");
+		success = false;
+		return;
 	}
 	else if (captureRequest.response.success && !saveImage(boost::make_shared<sensor_msgs::Image>(captureRequest.response.image), imageSaveDir, fileName)) {
 		ROS_ERROR_STREAM_NAMED(__func__, "Unable to save image");
+		success = false;
+		return;
 	}
 
-	// Transition
-	fsm->setState(Navigate::getInstance());
+	success = true;
+}
+
+void CameraCapture::evaluateTransitions(FiniteStateMachine* fsm)
+{
+	// Transition regardless of whether capturing successed or failed
+	if (success.has_value()) {
+		fsm->setState(Navigate::getInstance());
+	}
 }
 
 } // end namespace fsm

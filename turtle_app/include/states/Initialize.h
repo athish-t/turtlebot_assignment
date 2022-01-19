@@ -9,6 +9,7 @@ class Initialize : public State
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
 	virtual void init(FiniteStateMachine* fsm) override;
+	virtual void evaluateTransitions(FiniteStateMachine* fsm) override;
 
 	/*
 	* Get singleton instance of state
@@ -28,6 +29,8 @@ private:
 	Initialize() {}
 	Initialize(const Initialize& other);
 	Initialize& operator=(const Initialize& other);
+
+	bool initialized;
 };
 
 } // end namespace fsm

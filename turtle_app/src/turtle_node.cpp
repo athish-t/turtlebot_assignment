@@ -14,12 +14,12 @@ int main(int argc, char** argv)
 	fsm::FiniteStateMachine turtleFsm;
 	turtleFsm.setState(fsm::Initialize::getInstance());
 
-	// Tick
+	// Start
 	spinner.start();
-	while (ros::ok()) {
-		turtleFsm.run();
-		ros::Rate(10).sleep();
-	}
+	turtleFsm.start();
+
+	ros::waitForShutdown();
+	turtleFsm.stop();
 
 	return 0;
 }

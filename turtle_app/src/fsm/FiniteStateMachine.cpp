@@ -3,7 +3,7 @@
 namespace fsm
 {
 
-FiniteStateMachine::FiniteStateMachine() {}
+FiniteStateMachine::FiniteStateMachine() : isRunning(false) {}
 
 void FiniteStateMachine::setState(State& newState)
 {
@@ -16,7 +16,24 @@ void FiniteStateMachine::setState(State& newState)
 
 void FiniteStateMachine::run()
 {
-	currentState->run(this);
+	while (isRunning) {
+		currentState->evaluateTransitions(this);
+		currentState->run(this);
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
 }
+
+void FiniteStateMachine::start()
+{
+	isRunning = true;
+	mainThread.reset(new std::thread(&FiniteStateMachine::run, this));
+}
+
+void FiniteStateMachine::stop()
+{
+	isRunning = false;
+	mainThread->join();
+}
+
 
 } // end namespace fsm

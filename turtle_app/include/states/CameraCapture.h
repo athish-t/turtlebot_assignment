@@ -16,7 +16,8 @@ class CameraCapture : public State
 {
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
-	virtual void init(FiniteStateMachine* fsm);
+	virtual void init(FiniteStateMachine* fsm) override;
+	virtual void evaluateTransitions(FiniteStateMachine* fsm) override;
 
 	/*
 	* Get singleton instance of state
@@ -36,6 +37,8 @@ private:
 	CameraCapture() {}
 	CameraCapture(const CameraCapture& other);
 	CameraCapture& operator=(const CameraCapture& other);
+
+	std::optional<bool> success;
 };
 
 } // end namespace fsm

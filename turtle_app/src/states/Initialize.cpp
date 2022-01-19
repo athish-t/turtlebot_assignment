@@ -14,6 +14,7 @@ State& Initialize::getInstance()
 void Initialize::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In Initialize state");
+	initialized = false;
 }
 
 void Initialize::parseGoals(XmlRpc::XmlRpcValue& xmlGoals, Goals& goals)
@@ -62,8 +63,14 @@ void Initialize::run(FiniteStateMachine* fsm)
 	fsm->getUserData()["goals"] = goals;
 	fsm->getUserData()["last_checkpoint_id"] = 0;
 
-	// Transition
-	fsm->setState(Navigate::getInstance());
+	initialized = true;
+}
+
+void Initialize::evaluateTransitions(FiniteStateMachine* fsm)
+{
+	if (initialized) {
+		fsm->setState(Navigate::getInstance());
+	}
 }
 
 } // end namespace fsm

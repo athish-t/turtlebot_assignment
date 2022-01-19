@@ -2,6 +2,8 @@
 
 #include <unordered_map>
 #include <any>
+#include <thread>
+#include <chrono>
 
 #include "fsm/State.h"
 
@@ -24,9 +26,14 @@ public:
 	const State* getCurrentState() const {return currentState; }
 
 	/*
-	* Run the current state
+	* Start the FSM
 	*/
-	void run();
+	void start();
+
+	/*
+	* Stop the FSM
+	*/
+	void stop();
 
 	/*
 	* Set the current state.
@@ -40,8 +47,17 @@ public:
 	UserData& getUserData() {return userData; }
 
 private:
+	/*
+	* Evalue the transitions of current state and run its behaviour
+	*/
+	void run();
+
 	State* currentState = nullptr;  // Pointer to the current active state
 	UserData userData;  			// Data store that any state in this FSM can access
+
+	std::unique_ptr<std::thread> mainThread;  // Main thread of FSM
+	bool isRunning;
+
 };
 
 } // end namespace fsm

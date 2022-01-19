@@ -2,6 +2,7 @@
 #include "Types.h"
 
 #include <actionlib/client/simple_action_client.h>
+#include <actionlib/client/simple_client_goal_state.h>
 #include <move_base_msgs/MoveBaseGoal.h>
 #include <move_base_msgs/MoveBaseAction.h>
 #include <tf2/LinearMath/Quaternion.h>
@@ -12,9 +13,14 @@ namespace fsm
 
 class Navigate : public State
 {
+	using ActionClient = actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction>;
+	using ActionState = actionlib::SimpleClientGoalState::StateEnum;
+
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
 	virtual void init(FiniteStateMachine* fsm) override;
+	virtual void terminate(FiniteStateMachine* fsm) override;
+	virtual void evaluateTransitions(FiniteStateMachine* fsm) override;
 
 	/*
 	* Get singleton instance of state
@@ -28,6 +34,10 @@ private:
 	Navigate() {}
 	Navigate(const Navigate& other);
 	Navigate& operator=(const Navigate& other);
+
+	Goals* goals;
+	std::unique_ptr<ActionClient> navActionClient;
+	bool goalSent;
 };
 
 } // end namespace fsm

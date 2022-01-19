@@ -9,6 +9,7 @@ class Terminate : public State
 public:
 	virtual void run(FiniteStateMachine* fsm) override;
 	virtual void init(FiniteStateMachine* fsm) override;
+	virtual void evaluateTransitions(FiniteStateMachine* fsm) override;
 
 	/*
 	* Get singleton instance of state
