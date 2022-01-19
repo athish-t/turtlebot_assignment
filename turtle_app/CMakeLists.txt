@@ -65,6 +65,7 @@ add_library(${PROJECT_NAME}
   src/states/Initialize.cpp
   src/states/Idle.cpp
   src/states/Terminate.cpp
+  src/world_model.cpp
 )
 
 add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})

@@ -14,6 +14,7 @@ State& Initialize::getInstance()
 void Initialize::init(FiniteStateMachine* fsm)
 {
 	ROS_INFO_STREAM_NAMED(__func__, "In Initialize state");
+	WorldModel::instance().reset();
 	initialized = false;
 }
 

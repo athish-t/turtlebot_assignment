@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include "fsm/FiniteStateMachine.h"
 #include "states/Initialize.h"
+#include "world_model.h"
 
 int main(int argc, char** argv)
 {
@@ -9,6 +10,9 @@ int main(int argc, char** argv)
 	ros::AsyncSpinner spinner(1);
 
 	ROS_INFO_STREAM_NAMED(__func__, "Starting turtle FSM node");
+
+	// Initialize world information
+	WorldModel::instance().init();
 
 	// Initialize FSM and set intial state
 	fsm::FiniteStateMachine turtleFsm;

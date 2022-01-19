@@ -1,5 +1,6 @@
 #include "fsm/FiniteStateMachine.h"
 #include "states/Navigate.h"
+#include "states/Idle.h"
 #include "states/CameraCapture.h"
 
 namespace fsm
@@ -74,6 +75,13 @@ void CameraCapture::run(FiniteStateMachine* fsm)
 
 void CameraCapture::evaluateTransitions(FiniteStateMachine* fsm)
 {
+	// Transition to idle if interrupted
+	if (WorldModel::instance().isInterrupted()) {
+		ROS_WARN_STREAM_NAMED(__func__, "User interrupt requested. Idling now.");
+		fsm->setState(Idle::getInstance());
+		return;
+	}
+
 	// Transition regardless of whether capturing successed or failed
 	if (success.has_value()) {
 		fsm->setState(Navigate::getInstance());

@@ -59,6 +59,13 @@ void Navigate::terminate(FiniteStateMachine* fsm)
 
 void Navigate::evaluateTransitions(FiniteStateMachine* fsm)
 {
+	// Transition to idle if interrupted
+	if (WorldModel::instance().isInterrupted()) {
+		ROS_WARN_STREAM_NAMED(__func__, "User interrupt requested. Idling now.");
+		fsm->setState(Idle::getInstance());
+		return;
+	}
+
 	auto state = navActionClient->getState();
 	if (state == ActionState::SUCCEEDED){
 		ROS_INFO_STREAM_NAMED(__func__, "Navigate action goal succeeded");

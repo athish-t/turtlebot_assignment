@@ -1,4 +1,5 @@
 #include "fsm/State.h"
+#include "world_model.h"
 
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>

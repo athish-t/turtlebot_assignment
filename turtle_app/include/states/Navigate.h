@@ -1,5 +1,6 @@
 #include "fsm/State.h"
 #include "Types.h"
+#include "world_model.h"
 
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/client/simple_client_goal_state.h>

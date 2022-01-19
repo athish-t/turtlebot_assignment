@@ -1,5 +1,6 @@
 #include "fsm/State.h"
 #include "Types.h"
+#include "world_model.h"
 
 namespace fsm
 {
